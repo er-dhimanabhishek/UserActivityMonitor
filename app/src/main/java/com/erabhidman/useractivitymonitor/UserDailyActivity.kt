@@ -4,6 +4,8 @@ import android.app.AppOpsManager
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.Process
 import android.provider.Settings
 import android.util.Log
@@ -12,6 +14,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.erabhidman.useractivitymonitor.adapter.AppUsageListAdapter
 import com.erabhidman.useractivitymonitor.adapter.ItemClickListener
@@ -21,6 +24,8 @@ import com.erabhidman.useractivitymonitor.repository.UserDailyUsageRepository
 import com.erabhidman.useractivitymonitor.utils.DateTimeUtils
 import com.erabhidman.useractivitymonitor.viewmodel.UserDailyUsageViewModel
 import com.erabhidman.useractivitymonitor.viewmodel.UserDailyUsageViewModelFactory
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 
@@ -53,24 +58,25 @@ class UserDailyActivity : AppCompatActivity() {
             userDailyUsageViewModel.uniquePackageNameListDataObj.observe(this) { appPackageNameList ->
                 val totalAppUsageDurationList = ArrayList<AppUsageTotalTimeEntity>()
                 if (appPackageNameList.isNotEmpty()) {
-                    appPackageNameList.forEachIndexed { index, s ->
-                        Log.e("TAG", "DB data fetch: App package $s")
-                        var totalSessionTime = 0L
-                        runBlocking {
-                            totalSessionTime = userDailyUsageViewModel.getAppUsageEventTotalSessionTime(
-                                applicationContext,
-                                appPackageNameList[index],
-                                DateTimeUtils.getDateForPreviousDay()
+                    lifecycleScope.launch(Dispatchers.Default){
+                        appPackageNameList.forEachIndexed { index, s ->
+                            Log.e("TAG", "DB data fetch: App package $s")
+                            totalAppUsageDurationList.add(
+                                AppUsageTotalTimeEntity(
+                                    appPackageNameList[index],
+                                    userDailyUsageViewModel.getAppUsageEventTotalSessionTime(
+                                        applicationContext,
+                                        appPackageNameList[index],
+                                        DateTimeUtils.getDateForPreviousDay()
+                                    )?:0L
+                                )
                             )
                         }
-                        totalAppUsageDurationList.add(
-                            AppUsageTotalTimeEntity(
-                                appPackageNameList[index],
-                                totalSessionTime
-                            )
-                        )
+                        Log.e("TAG", "Final list size: ${totalAppUsageDurationList.size}")
+                        Handler(Looper.getMainLooper()).post {
+                            populateData(totalAppUsageDurationList)
+                        }
                     }
-                    populateData(totalAppUsageDurationList)
                 }else{
                     // no data
                     Toast.makeText(this, "No data available in db.", Toast.LENGTH_LONG).show()
