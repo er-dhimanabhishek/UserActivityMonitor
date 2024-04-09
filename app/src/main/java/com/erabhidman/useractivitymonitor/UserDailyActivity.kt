@@ -73,7 +73,7 @@ class UserDailyActivity : AppCompatActivity() {
                     populateData(totalAppUsageDurationList)
                 }else{
                     // no data
-                    Toast.makeText(this, "No data available.", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "No data available.", Toast.LENGTH_LONG).show()
                 }
             }
         }
