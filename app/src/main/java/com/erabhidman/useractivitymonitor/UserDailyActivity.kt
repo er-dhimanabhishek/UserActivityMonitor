@@ -8,6 +8,7 @@ import android.os.Process
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -72,7 +73,7 @@ class UserDailyActivity : AppCompatActivity() {
                     populateData(totalAppUsageDurationList)
                 }else{
                     // no data
-
+                    Toast.makeText(this, "No data available.", Toast.LENGTH_SHORT).show()
                 }
             }
         }
