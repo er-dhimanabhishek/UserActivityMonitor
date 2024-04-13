@@ -1,16 +1,13 @@
 package com.erabhidman.useractivitymonitor.viewmodel
 
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.erabhidman.useractivitymonitor.model.AppUsageEntity
 import com.erabhidman.useractivitymonitor.repository.UserDailyUsageRepository
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
 
 class UserDailyUsageViewModel(private val appUsageRepository: UserDailyUsageRepository): ViewModel() {
@@ -35,7 +32,7 @@ class UserDailyUsageViewModel(private val appUsageRepository: UserDailyUsageRepo
 
     suspend fun getAppUsageEventTotalSessionTime(
         context: Context, appPackage: String, date: String): Long? = withContext(Dispatchers.IO){
-        Log.e("TAG", "Total session sum date: $date")
+        //Log.e("TAG", "Total session sum date: $date")
         return@withContext appUsageRepository.getAppUsageEventTotalSessionTime(context, appPackage, date)
     }
 

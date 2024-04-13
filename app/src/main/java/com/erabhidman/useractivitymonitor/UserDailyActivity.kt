@@ -1,13 +1,9 @@
 package com.erabhidman.useractivitymonitor
 
-import android.app.AppOpsManager
-import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.os.Process
-import android.provider.Settings
 import android.util.Log
 import android.view.View
 import android.widget.Toast
@@ -26,7 +22,6 @@ import com.erabhidman.useractivitymonitor.viewmodel.UserDailyUsageViewModel
 import com.erabhidman.useractivitymonitor.viewmodel.UserDailyUsageViewModelFactory
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 
 
 class UserDailyActivity : AppCompatActivity() {
@@ -40,7 +35,9 @@ class UserDailyActivity : AppCompatActivity() {
             this,
             UserDailyUsageViewModelFactory(UserDailyUsageRepository())
         )[UserDailyUsageViewModel::class.java]
+
         showProgressBar()
+
         userDailyUsageViewModel.getAppUsageData(this)
         userDailyUsageViewModel.appUsageDataObj.observe(this) { _ ->
             //fetch data from room db

@@ -4,6 +4,7 @@ import android.app.AppOpsManager
 import android.content.Context
 import android.content.Context.APP_OPS_SERVICE
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
 import android.os.Process
 
 
@@ -14,6 +15,17 @@ object AppInfoUtils {
         return try {
             val applicationInfo = packageManager.getApplicationInfo(packageName, 0)
             packageManager.getApplicationLabel(applicationInfo).toString()
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+            null
+        }
+    }
+
+    fun getAppIconFromPackageName(context: Context, packageName: String): Drawable? {
+        val packageManager = context.packageManager
+        return try {
+            val applicationInfo = packageManager.getApplicationInfo(packageName, 0)
+            packageManager.getApplicationIcon(applicationInfo)
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
             null

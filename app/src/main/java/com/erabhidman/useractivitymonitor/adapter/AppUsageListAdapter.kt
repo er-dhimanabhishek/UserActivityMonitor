@@ -4,6 +4,7 @@ import android.text.format.DateUtils
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.erabhidman.useractivitymonitor.R
@@ -35,10 +36,12 @@ class AppUsageListAdapter(private val appUsageList: List<AppUsageTotalTimeEntity
     }
 
     class AppUsageViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        private val appIcon = view.findViewById<ImageView>(R.id.ivAppIcon)
         private val appName = view.findViewById<TextView>(R.id.tvAppName)
         private val totalAppUsageTime = view.findViewById<TextView>(R.id.tvTotalAppUsageTime)
 
         fun bindAppUsageData(item: AppUsageTotalTimeEntity){
+            appIcon.setImageDrawable(AppInfoUtils.getAppIconFromPackageName(itemView.context, item.appPackageName))
             appName.text = if (AppInfoUtils.getAppLabelFromPackageName(
                     itemView.context, item.appPackageName
                 ) == null

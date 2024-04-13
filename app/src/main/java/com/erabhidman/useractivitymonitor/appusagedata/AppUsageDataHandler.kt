@@ -3,7 +3,6 @@ package com.erabhidman.useractivitymonitor.appusagedata
 import android.app.usage.UsageEvents
 import android.app.usage.UsageStatsManager
 import android.content.Context
-import android.util.Log
 import com.erabhidman.useractivitymonitor.model.AppUsageEntity
 import com.erabhidman.useractivitymonitor.utils.DateTimeUtils
 import java.util.Calendar
@@ -41,7 +40,7 @@ class AppUsageDataHandler {
 
         if(allEvents.isNotEmpty()) {
             allEvents.forEachIndexed { index, event ->
-                Log.e("TAG", "Package: ${event.packageName} Event: ${event.timeStamp}")
+                //Log.e("TAG", "Package: ${event.packageName} Event: ${event.timeStamp}")
                 if (index < allEvents.size -1){
                     val e0 = event
                     val e1 = allEvents[index + 1]

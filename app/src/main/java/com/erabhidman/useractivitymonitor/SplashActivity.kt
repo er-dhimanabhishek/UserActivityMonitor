@@ -1,12 +1,8 @@
 package com.erabhidman.useractivitymonitor
 
-import android.app.AppOpsManager
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Process
-import android.provider.Settings
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
