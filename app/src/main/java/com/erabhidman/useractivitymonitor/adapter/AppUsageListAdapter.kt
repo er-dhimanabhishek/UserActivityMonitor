@@ -29,6 +29,9 @@ class AppUsageListAdapter(private val appUsageList: List<AppUsageTotalTimeEntity
 
     override fun onBindViewHolder(holder: AppUsageViewHolder, position: Int) {
         holder.bindAppUsageData(appUsageList[position])
+        holder.itemView.setOnClickListener {
+            clickListener.onItemClicked(appUsageList[position].appPackageName)
+        }
     }
 
     class AppUsageViewHolder(view: View) : RecyclerView.ViewHolder(view) {

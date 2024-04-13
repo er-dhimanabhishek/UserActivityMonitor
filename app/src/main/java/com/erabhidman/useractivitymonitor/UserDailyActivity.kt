@@ -94,7 +94,10 @@ class UserDailyActivity : AppCompatActivity() {
     }
 
     private fun viewDetailedTimeline() {
-
+        startActivity(
+            Intent(
+            this@UserDailyActivity,
+                TimelineActivity::class.java))
     }
 
     private fun showProgressBar() {
