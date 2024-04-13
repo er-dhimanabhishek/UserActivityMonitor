@@ -73,4 +73,15 @@ object DateTimeUtils {
         return dateFormat.format(calendar.time)
     }
 
+    fun getCustomFormattedDatFromMills(timeMills: Long): String {
+        // Create a SimpleDateFormat object with the desired date format
+        val sdf = SimpleDateFormat("EEE dd MMM", Locale.getDefault())
+
+        // Convert the current time in milliseconds to a Date object
+        val currentDate = Date(timeMills)
+
+        // Format the Date object using SimpleDateFormat
+        return sdf.format(currentDate)
+    }
+
 }

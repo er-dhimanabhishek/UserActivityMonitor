@@ -36,51 +36,45 @@ class UserDailyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_daily_usage)
 
-        if (!checkUsageStatsPermission(this)) {
-            // Navigate the user to the permission settings
-            val intent = Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS)
-            startActivity(intent)
-        } else {
-            userDailyUsageViewModel = ViewModelProvider(
-                this,
-                UserDailyUsageViewModelFactory(UserDailyUsageRepository())
-            )[UserDailyUsageViewModel::class.java]
-            showProgressBar()
-            userDailyUsageViewModel.getAppUsageData(this)
-            userDailyUsageViewModel.appUsageDataObj.observe(this) { _ ->
-                //fetch data from room db
-                userDailyUsageViewModel.getUniquePackageNameList(
-                    context = applicationContext,
-                    DateTimeUtils.getDateForPreviousDay()
-                )
-            }
+        userDailyUsageViewModel = ViewModelProvider(
+            this,
+            UserDailyUsageViewModelFactory(UserDailyUsageRepository())
+        )[UserDailyUsageViewModel::class.java]
+        showProgressBar()
+        userDailyUsageViewModel.getAppUsageData(this)
+        userDailyUsageViewModel.appUsageDataObj.observe(this) { _ ->
+            //fetch data from room db
+            userDailyUsageViewModel.getUniquePackageNameList(
+                context = applicationContext,
+                DateTimeUtils.getDateForPreviousDay()
+            )
+        }
 
-            userDailyUsageViewModel.uniquePackageNameListDataObj.observe(this) { appPackageNameList ->
-                val totalAppUsageDurationList = ArrayList<AppUsageTotalTimeEntity>()
-                if (appPackageNameList.isNotEmpty()) {
-                    lifecycleScope.launch(Dispatchers.Default){
-                        appPackageNameList.forEachIndexed { index, s ->
-                            Log.e("TAG", "DB data fetch: App package $s")
-                            totalAppUsageDurationList.add(
-                                AppUsageTotalTimeEntity(
+        userDailyUsageViewModel.uniquePackageNameListDataObj.observe(this) { appPackageNameList ->
+            val totalAppUsageDurationList = ArrayList<AppUsageTotalTimeEntity>()
+            if (appPackageNameList.isNotEmpty()) {
+                lifecycleScope.launch(Dispatchers.Default) {
+                    appPackageNameList.forEachIndexed { index, s ->
+                        Log.e("TAG", "DB data fetch: App package $s")
+                        totalAppUsageDurationList.add(
+                            AppUsageTotalTimeEntity(
+                                appPackageNameList[index],
+                                userDailyUsageViewModel.getAppUsageEventTotalSessionTime(
+                                    applicationContext,
                                     appPackageNameList[index],
-                                    userDailyUsageViewModel.getAppUsageEventTotalSessionTime(
-                                        applicationContext,
-                                        appPackageNameList[index],
-                                        DateTimeUtils.getDateForPreviousDay()
-                                    )?:0L
-                                )
+                                    DateTimeUtils.getDateForPreviousDay()
+                                ) ?: 0L
                             )
-                        }
-                        Log.e("TAG", "Final list size: ${totalAppUsageDurationList.size}")
-                        Handler(Looper.getMainLooper()).post {
-                            populateData(totalAppUsageDurationList)
-                        }
+                        )
                     }
-                }else{
-                    // no data
-                    Toast.makeText(this, "No data available in db.", Toast.LENGTH_LONG).show()
+                    Log.e("TAG", "Final list size: ${totalAppUsageDurationList.size}")
+                    Handler(Looper.getMainLooper()).post {
+                        populateData(totalAppUsageDurationList)
+                    }
                 }
+            } else {
+                // no data
+                Toast.makeText(this, "No data available in db.", Toast.LENGTH_LONG).show()
             }
         }
     }
@@ -95,6 +89,7 @@ class UserDailyActivity : AppCompatActivity() {
         })
         _binding.rvAppDataUsageForDay.layoutManager = LinearLayoutManager(this)
         _binding.rvAppDataUsageForDay.adapter = adapter
+        _binding.tvDate.text = DateTimeUtils.getCustomFormattedDatFromMills(System.currentTimeMillis())
         hideProgressBar()
     }
 
@@ -105,21 +100,13 @@ class UserDailyActivity : AppCompatActivity() {
     private fun showProgressBar() {
         _binding.progressBar.visibility = View.VISIBLE
         _binding.rvAppDataUsageForDay.visibility = View.GONE
+        _binding.tvDate.visibility = View.GONE
     }
 
     private fun hideProgressBar() {
         _binding.progressBar.visibility = View.GONE
         _binding.rvAppDataUsageForDay.visibility = View.VISIBLE
-    }
-
-    private fun checkUsageStatsPermission(context: Context): Boolean {
-        val appOpsManager =
-            context.getSystemService(APP_OPS_SERVICE) as AppOpsManager
-        val mode: Int = appOpsManager.checkOpNoThrow(
-            "android:get_usage_stats",
-            Process.myUid(), packageName
-        )
-        return mode == AppOpsManager.MODE_ALLOWED
+        _binding.tvDate.visibility = View.VISIBLE
     }
 
 }

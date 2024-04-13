@@ -4,6 +4,7 @@ import android.app.AppOpsManager
 import android.content.Context
 import android.content.Context.APP_OPS_SERVICE
 import android.content.pm.PackageManager
+import android.os.Process
 
 
 object AppInfoUtils {
@@ -17,6 +18,16 @@ object AppInfoUtils {
             e.printStackTrace()
             null
         }
+    }
+
+    fun checkUsageStatsPermission(context: Context, packageName: String): Boolean {
+        val appOpsManager =
+            context.getSystemService(APP_OPS_SERVICE) as AppOpsManager
+        val mode: Int = appOpsManager.checkOpNoThrow(
+            "android:get_usage_stats",
+            Process.myUid(), packageName
+        )
+        return mode == AppOpsManager.MODE_ALLOWED
     }
 
 }
