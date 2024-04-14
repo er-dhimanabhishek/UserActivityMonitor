@@ -52,20 +52,8 @@ val usageStatsManager =
 
 <h2>Project Screenshots:</h2>
 
-<div class="grid-container">
-    <div class="grid-item">
-        <img src="https://i.postimg.cc/bwd4Cz0p/Screenshot-2024-04-14-at-11-25-18-AM.png" alt="project-screenshot" width="300" height="500">
-    </div>
-    <div class="grid-item">
-        <img src="https://i.postimg.cc/BQnzbqVH/Screenshot-2024-04-14-at-11-24-37-AM.png" alt="project-screenshot" width="300" height="500">
-    </div>
-    <div class="grid-item">
-        <img src="https://i.postimg.cc/764skDzC/Screenshot-2024-04-14-at-11-22-28-AM.png" alt="project-screenshot" width="300" height="500">
-    </div>
-    <div class="grid-item">
-        <img src="https://i.postimg.cc/sxN4vRM4/Screenshot-2024-04-14-at-11-23-04-AM.png" alt="project-screenshot" width="300" height="500">
-    </div>
-</div>
+:-------------------------:|:-------------------------:
+![]([https://...Dark.png](https://i.postimg.cc/bwd4Cz0p/Screenshot-2024-04-14-at-11-25-18-AM.png))  |  ![]([https://...Dark.png](https://i.postimg.cc/BQnzbqVH/Screenshot-2024-04-14-at-11-24-37-AM.png))  |  ![]([https://...Dark.png](https://i.postimg.cc/764skDzC/Screenshot-2024-04-14-at-11-22-28-AM.png))  |  ![]([https://...Dark.png](https://i.postimg.cc/sxN4vRM4/Screenshot-2024-04-14-at-11-23-04-AM.png))
 
   
   
