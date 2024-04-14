@@ -52,10 +52,15 @@ val usageStatsManager =
 
 <h2>Project Screenshots:</h2>
 
-:-------------------------:|:-------------------------:
-![]([https://...Dark.png](https://i.postimg.cc/bwd4Cz0p/Screenshot-2024-04-14-at-11-25-18-AM.png))  |  ![]([https://...Dark.png](https://i.postimg.cc/BQnzbqVH/Screenshot-2024-04-14-at-11-24-37-AM.png))  |  ![]([https://...Dark.png](https://i.postimg.cc/764skDzC/Screenshot-2024-04-14-at-11-22-28-AM.png))  |  ![]([https://...Dark.png](https://i.postimg.cc/sxN4vRM4/Screenshot-2024-04-14-at-11-23-04-AM.png))
+<p float="left">
+  <img src="https://i.postimg.cc/bwd4Cz0p/Screenshot-2024-04-14-at-11-25-18-AM.png" width="300" />
+  <img src="https://i.postimg.cc/BQnzbqVH/Screenshot-2024-04-14-at-11-24-37-AM.png" width="300" /> 
+</p>
 
-  
+<p float="left">
+  <img src="https://i.postimg.cc/764skDzC/Screenshot-2024-04-14-at-11-22-28-AM.png" width="300" />
+  <img src="https://i.postimg.cc/sxN4vRM4/Screenshot-2024-04-14-at-11-23-04-AM.png" width="300" /> 
+</p> 
   
 <h2>💻 Built with</h2>
 
