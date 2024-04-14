@@ -71,3 +71,4 @@ Technologies used in the project:
 *   Data Binding
 *   MVVM
 *   Room DB
+*   LiveData
