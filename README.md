@@ -11,6 +11,18 @@
 *   JDK 18
 *   Min SDK version 23(To access Usage Stats min SDK required is 21)
 
+<h2>Permission:</h2>
+
+Usage Stats access permission is required:
+
+```
+
+<uses-permission
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
+
+```
+
 <h2>Project Screenshots:</h2>
 
 <img src="https://i.postimg.cc/bwd4Cz0p/Screenshot-2024-04-14-at-11-25-18-AM.png" alt="project-screenshot" width="300" height="500/">
