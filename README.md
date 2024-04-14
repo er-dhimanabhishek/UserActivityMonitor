@@ -4,6 +4,13 @@
 
 <p id="description">For this project I have used the Usage Stats Manager to access the daily usage stats of the user's mobile device and consolidated them to show the total usage of every application. This tells the user how much time the user is spending on every single app.</p>
 
+<h2>Pre-requisites:</h2>
+
+*   Android Studio Flamingo | 2022.2.1
+*   Gradle: 8.0.0
+*   JDK 18
+*   Min SDK version 23(To access Usage Stats min SDK required is 21)
+
 <h2>Project Screenshots:</h2>
 
 <img src="https://i.postimg.cc/bwd4Cz0p/Screenshot-2024-04-14-at-11-25-18-AM.png" alt="project-screenshot" width="300" height="500/">
@@ -23,3 +30,5 @@ Technologies used in the project:
 *   Kotlin
 *   Kotlin-coroutines
 *   Data Binding
+*   MVVM
+*   Room DB
