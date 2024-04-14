@@ -23,6 +23,33 @@ Usage Stats access permission is required:
 
 ```
 
+Check if permission is granted or not:
+
+```
+
+val appOpsManager =
+            context.getSystemService(APP_OPS_SERVICE) as AppOpsManager
+        val mode: Int = appOpsManager.checkOpNoThrow(
+            "android:get_usage_stats",
+            Process.myUid(), packageName
+        )
+        return mode == AppOpsManager.MODE_ALLOWED
+
+```
+
+<h2>Query usage stats:</h2>
+
+```
+
+val usageStatsManager =
+            ctx.getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+
+        val usageEvents = usageStatsManager.queryEvents(beginTimeMills, endTimeMills)
+
+```
+
+*   beginTimeMills and endTimeMills is the time interval for which we want to query the usage stats and this time frame is specified in milli seconds 
+
 <h2>Project Screenshots:</h2>
 
 <img src="https://i.postimg.cc/bwd4Cz0p/Screenshot-2024-04-14-at-11-25-18-AM.png" alt="project-screenshot" width="300" height="500/">
