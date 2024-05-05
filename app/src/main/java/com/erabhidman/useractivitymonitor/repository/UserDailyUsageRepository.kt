@@ -30,9 +30,9 @@ class UserDailyUsageRepository {
             if (appUsageList.isNotEmpty()){
                 DatabaseOperationsUtility.addAppUsageDataToDB(context, appUsageList)
             }
-        }
-        Handler(Looper.getMainLooper()).post {
-            appUsageLiveData.value = appUsageList
+            Handler(Looper.getMainLooper()).post {
+                appUsageLiveData.value = appUsageList
+            }
         }
     }
 

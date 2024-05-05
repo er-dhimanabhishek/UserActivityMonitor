@@ -1,6 +1,7 @@
 package com.erabhidman.useractivitymonitor.viewmodel
 
 import android.content.Context
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -12,6 +13,8 @@ import kotlinx.coroutines.withContext
 
 class UserDailyUsageViewModel(private val appUsageRepository: UserDailyUsageRepository): ViewModel() {
 
+    var activityPaused = false
+
     val appUsageDataObj : LiveData<List<AppUsageEntity>>
     get() = appUsageRepository.appUsageDataObject
 
@@ -19,6 +22,7 @@ class UserDailyUsageViewModel(private val appUsageRepository: UserDailyUsageRepo
         get() = appUsageRepository.packageNameListDataObject
 
     fun getAppUsageData(context: Context){
+        Log.e("TAG", "Initiate system.")
         viewModelScope.launch(Dispatchers.IO) {
             appUsageRepository.getUserDailyAppUsageData(context)
         }

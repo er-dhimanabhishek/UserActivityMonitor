@@ -6,13 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.erabhidman.useractivitymonitor.R
 import com.erabhidman.useractivitymonitor.model.AppUsageTotalTimeEntity
 import com.erabhidman.useractivitymonitor.utils.AppInfoUtils
 
-class AppUsageListAdapter(private val appUsageList: List<AppUsageTotalTimeEntity>, val clickListener: ItemClickListener) :
-    RecyclerView.Adapter<AppUsageListAdapter.AppUsageViewHolder>() {
+class AppUsageListAdapter(val clickListener: ItemClickListener) :
+    ListAdapter<AppUsageTotalTimeEntity, AppUsageListAdapter.AppUsageViewHolder>(MyDiffUtil()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppUsageViewHolder {
         return AppUsageViewHolder(
@@ -24,14 +26,10 @@ class AppUsageListAdapter(private val appUsageList: List<AppUsageTotalTimeEntity
         )
     }
 
-    override fun getItemCount(): Int {
-        return appUsageList.size
-    }
-
     override fun onBindViewHolder(holder: AppUsageViewHolder, position: Int) {
-        holder.bindAppUsageData(appUsageList[position])
+        holder.bindAppUsageData(getItem(position))
         holder.itemView.setOnClickListener {
-            clickListener.onItemClicked(appUsageList[position].appPackageName)
+            clickListener.onItemClicked(getItem(position).appPackageName)
         }
     }
 
@@ -50,6 +48,17 @@ class AppUsageListAdapter(private val appUsageList: List<AppUsageTotalTimeEntity
                 itemView.context, item.appPackageName
             )
             totalAppUsageTime.text = DateUtils.formatElapsedTime(item.totalTimeUsed / 1000)
+        }
+
+    }
+
+    class MyDiffUtil: DiffUtil.ItemCallback<AppUsageTotalTimeEntity>(){
+        override fun areItemsTheSame(oldItem: AppUsageTotalTimeEntity, newItem: AppUsageTotalTimeEntity): Boolean {
+            return oldItem.totalTimeUsed == newItem.totalTimeUsed
+        }
+
+        override fun areContentsTheSame(oldItem: AppUsageTotalTimeEntity, newItem: AppUsageTotalTimeEntity): Boolean {
+            return oldItem == newItem
         }
 
     }

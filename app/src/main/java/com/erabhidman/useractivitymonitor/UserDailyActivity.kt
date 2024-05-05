@@ -78,12 +78,13 @@ class UserDailyActivity : AppCompatActivity() {
 
     private fun populateData(totalAppUsageDurationList: List<AppUsageTotalTimeEntity>) {
 
-        val adapter = AppUsageListAdapter(totalAppUsageDurationList, object: ItemClickListener{
+        val adapter = AppUsageListAdapter(object: ItemClickListener{
             override fun onItemClicked(appPackageName: String) {
                 viewDetailedTimeline()
             }
 
         })
+        adapter.submitList(totalAppUsageDurationList)
         _binding.rvAppDataUsageForDay.layoutManager = LinearLayoutManager(this)
         _binding.rvAppDataUsageForDay.adapter = adapter
         _binding.tvDate.text = DateTimeUtils.getCustomFormattedDatFromMills(System.currentTimeMillis())
@@ -107,6 +108,19 @@ class UserDailyActivity : AppCompatActivity() {
         _binding.progressBar.visibility = View.GONE
         _binding.rvAppDataUsageForDay.visibility = View.VISIBLE
         _binding.tvDate.visibility = View.VISIBLE
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (userDailyUsageViewModel.activityPaused){
+            userDailyUsageViewModel.getAppUsageData(this)
+            userDailyUsageViewModel.activityPaused = false
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        userDailyUsageViewModel.activityPaused = true
     }
 
 }

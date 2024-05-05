@@ -18,7 +18,7 @@
         android:roundIcon="@drawable/ic_app_icon"
         android:supportsRtl="true"
         android:theme="@style/Theme.CustomSplashScreenTheme"
-        tools:targetApi="31">
+        android:name=".UserApplication">
         <activity
             android:name=".TimelineActivity"
             android:exported="false"
