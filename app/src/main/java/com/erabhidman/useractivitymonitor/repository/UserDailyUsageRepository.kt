@@ -8,10 +8,13 @@ import androidx.lifecycle.MutableLiveData
 import com.erabhidman.useractivitymonitor.appusagedata.AppUsageDataHandler
 import com.erabhidman.useractivitymonitor.model.AppUsageEntity
 import com.erabhidman.useractivitymonitor.roomdb.DatabaseOperationsUtility
+import com.erabhidman.useractivitymonitor.roomdb.database.RoomDataDB
 import com.erabhidman.useractivitymonitor.utils.DateTimeUtils
 import kotlinx.coroutines.runBlocking
+import javax.inject.Inject
 
-class UserDailyUsageRepository {
+class UserDailyUsageRepository @Inject constructor(private val productDB: RoomDataDB,
+                                private val appUsageDataHandler: AppUsageDataHandler){
 
     private val appUsageLiveData = MutableLiveData<List<AppUsageEntity>>()
     val appUsageDataObject : LiveData<List<AppUsageEntity>>
@@ -21,14 +24,13 @@ class UserDailyUsageRepository {
     val packageNameListDataObject : LiveData<List<String>>
         get() = packageNameListLiveData
 
-    fun getUserDailyAppUsageData(context: Context) {
-        val appUsageDataHandler =   AppUsageDataHandler()
-        val appUsageList = appUsageDataHandler.getTimeSpentOnApps(context,
+    fun getUserDailyAppUsageData() {
+        val appUsageList = appUsageDataHandler.getTimeSpentOnApps(
             DateTimeUtils.getMidNightTimeInMillsForCurrentDay(), DateTimeUtils.getMidNightTimeInMillsForNextDay())
 
         runBlocking {
             if (appUsageList.isNotEmpty()){
-                DatabaseOperationsUtility.addAppUsageDataToDB(context, appUsageList)
+                DatabaseOperationsUtility.addAppUsageDataToDB(appUsageList, productDB)
             }
             Handler(Looper.getMainLooper()).post {
                 appUsageLiveData.value = appUsageList
@@ -36,15 +38,15 @@ class UserDailyUsageRepository {
         }
     }
 
-    fun getUniqueAppPackageNameList(context: Context, date: String){
-       val packageNameList = DatabaseOperationsUtility.getDailyUsageEventUniquePackageNameList(context, date)
+    fun getUniqueAppPackageNameList(date: String){
+       val packageNameList = DatabaseOperationsUtility.getDailyUsageEventUniquePackageNameList(date, productDB)
         Handler(Looper.getMainLooper()).post {
             packageNameListLiveData.value = packageNameList
         }
     }
 
-    fun getAppUsageEventTotalSessionTime(context: Context, appPackage: String, date: String): Long? {
-       return DatabaseOperationsUtility.getSessionTimeForegroundSumForAppEvents(context, appPackage, date)
+    fun getAppUsageEventTotalSessionTime(appPackage: String, date: String): Long? {
+       return DatabaseOperationsUtility.getSessionTimeForegroundSumForAppEvents(appPackage, date, productDB)
     }
 
 }

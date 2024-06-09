@@ -1,6 +1,5 @@
 package com.erabhidman.useractivitymonitor.roomdb
 
-import android.content.Context
 import com.erabhidman.useractivitymonitor.model.AppUsageEntity
 import com.erabhidman.useractivitymonitor.roomdb.dao.AppUsageDao
 import com.erabhidman.useractivitymonitor.roomdb.database.RoomDataDB
@@ -10,22 +9,23 @@ object DatabaseOperationsUtility {
     private var mAppUsageDao: AppUsageDao? = null
 
     fun addAppUsageDataToDB(
-        context: Context,
-        appUsageList: List<AppUsageEntity>
+        appUsageList: List<AppUsageEntity>,
+        productDB: RoomDataDB
     ) {
-        val database: RoomDataDB = RoomDataDB.getInstance(context)
-        synchronized(RoomDataDB.getInstance(context)) {
+        synchronized(productDB) {
             mAppUsageDao =
-                database.appUsageDao()
+                productDB.appUsageDao()
             mAppUsageDao?.insertAppUsageData(appUsageList)
         }
     }
 
-    fun getDailyUsageEventUniquePackageNameList(context: Context, date: String): List<String>? {
-        synchronized(RoomDataDB.getInstance(context)) {
-            val database = RoomDataDB.getInstance(context)
+    fun getDailyUsageEventUniquePackageNameList(
+        date: String,
+        productDB: RoomDataDB
+    ): List<String>? {
+        synchronized(productDB) {
             mAppUsageDao =
-                database.appUsageDao()
+                productDB.appUsageDao()
             return mAppUsageDao?.getDailyUsageEventUniquePackageNameList(
                 date
             )
@@ -33,14 +33,13 @@ object DatabaseOperationsUtility {
     }
 
     fun getSessionTimeForegroundSumForAppEvents(
-        context: Context,
         appPackageName: String,
-        date: String
+        date: String,
+        productDB: RoomDataDB
     ): Long? {
-        synchronized(RoomDataDB.getInstance(context)) {
-            val database = RoomDataDB.getInstance(context)
+        synchronized(productDB) {
             mAppUsageDao =
-                database.appUsageDao()
+                productDB.appUsageDao()
             return mAppUsageDao?.getSessionTimeForegroundSumForAppEvents(
                 appPackageName,
                 date

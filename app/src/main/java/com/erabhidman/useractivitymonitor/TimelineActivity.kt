@@ -6,7 +6,9 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import androidx.databinding.DataBindingUtil
 import com.erabhidman.useractivitymonitor.databinding.ActivityTimelineBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TimelineActivity : AppCompatActivity() {
     lateinit var _binding: ActivityTimelineBinding
     override fun onCreate(savedInstanceState: Bundle?) {

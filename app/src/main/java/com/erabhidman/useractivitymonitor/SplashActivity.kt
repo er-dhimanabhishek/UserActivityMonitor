@@ -8,8 +8,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.erabhidman.useractivitymonitor.databinding.ActivitySplashBinding
 import com.erabhidman.useractivitymonitor.utils.AppInfoUtils
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 
+@AndroidEntryPoint
 class SplashActivity : AppCompatActivity() {
     lateinit var _binding: ActivitySplashBinding
     override fun onCreate(savedInstanceState: Bundle?) {

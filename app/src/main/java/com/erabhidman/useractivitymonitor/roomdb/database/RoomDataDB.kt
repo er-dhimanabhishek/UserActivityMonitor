@@ -1,8 +1,6 @@
 package com.erabhidman.useractivitymonitor.roomdb.database
 
-import android.content.Context
 import androidx.room.Database
-import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.erabhidman.useractivitymonitor.model.AppUsageEntity
 import com.erabhidman.useractivitymonitor.roomdb.dao.AppUsageDao
@@ -12,7 +10,7 @@ abstract class RoomDataDB: RoomDatabase() {
 
     abstract fun appUsageDao(): AppUsageDao
 
-    companion object{
+    /*companion object{
         @Volatile
         private var INSTANCE: RoomDataDB? = null
 
@@ -25,6 +23,6 @@ abstract class RoomDataDB: RoomDatabase() {
                 instance
             }
         }
-    }
+    }*/
 
 }

@@ -8,7 +8,9 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import com.erabhidman.useractivitymonitor.databinding.ActivityUsagePermissionBinding
 import com.erabhidman.useractivitymonitor.utils.AppInfoUtils
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class UsagePermissionActivity : AppCompatActivity() {
     lateinit var _binding: ActivityUsagePermissionBinding
     override fun onCreate(savedInstanceState: Bundle?) {

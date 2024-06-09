@@ -6,10 +6,11 @@ import android.content.Context
 import com.erabhidman.useractivitymonitor.model.AppUsageEntity
 import com.erabhidman.useractivitymonitor.utils.DateTimeUtils
 import java.util.Calendar
+import javax.inject.Inject
 
-class AppUsageDataHandler {
+class AppUsageDataHandler @Inject constructor(private val ctx: Context) {
 
-    fun getTimeSpentOnApps(ctx: Context, beginTimeMills: Long, endTimeMills: Long): List<AppUsageEntity> {
+    fun getTimeSpentOnApps(beginTimeMills: Long, endTimeMills: Long): List<AppUsageEntity> {
         val allEvents = ArrayList<UsageEvents.Event>()
         val appUsageMap = HashMap<String, Long>()
 

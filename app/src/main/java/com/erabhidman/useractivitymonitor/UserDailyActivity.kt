@@ -20,10 +20,11 @@ import com.erabhidman.useractivitymonitor.repository.UserDailyUsageRepository
 import com.erabhidman.useractivitymonitor.utils.DateTimeUtils
 import com.erabhidman.useractivitymonitor.viewmodel.UserDailyUsageViewModel
 import com.erabhidman.useractivitymonitor.viewmodel.UserDailyUsageViewModelFactory
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
-
+@AndroidEntryPoint
 class UserDailyActivity : AppCompatActivity() {
     lateinit var _binding: ActivityDailyUsageBinding
     lateinit var userDailyUsageViewModel: UserDailyUsageViewModel
@@ -31,18 +32,14 @@ class UserDailyActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         _binding = DataBindingUtil.setContentView(this, R.layout.activity_daily_usage)
 
-        userDailyUsageViewModel = ViewModelProvider(
-            this,
-            UserDailyUsageViewModelFactory(UserDailyUsageRepository())
-        )[UserDailyUsageViewModel::class.java]
+        userDailyUsageViewModel = ViewModelProvider(this)[UserDailyUsageViewModel::class.java]
 
         showProgressBar()
 
-        userDailyUsageViewModel.getAppUsageData(this)
+        userDailyUsageViewModel.getAppUsageData()
         userDailyUsageViewModel.appUsageDataObj.observe(this) { _ ->
             //fetch data from room db
             userDailyUsageViewModel.getUniquePackageNameList(
-                context = applicationContext,
                 DateTimeUtils.getDateForPreviousDay()
             )
         }
@@ -57,7 +54,6 @@ class UserDailyActivity : AppCompatActivity() {
                             AppUsageTotalTimeEntity(
                                 appPackageNameList[index],
                                 userDailyUsageViewModel.getAppUsageEventTotalSessionTime(
-                                    applicationContext,
                                     appPackageNameList[index],
                                     DateTimeUtils.getDateForPreviousDay()
                                 ) ?: 0L
@@ -113,7 +109,7 @@ class UserDailyActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         if (userDailyUsageViewModel.activityPaused){
-            userDailyUsageViewModel.getAppUsageData(this)
+            userDailyUsageViewModel.getAppUsageData()
             userDailyUsageViewModel.activityPaused = false
         }
     }
